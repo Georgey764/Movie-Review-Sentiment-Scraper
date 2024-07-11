@@ -1,3 +1,3 @@
-# Stocks Watcher
+# Movie Review Sentiment Scraper
 
-> This is an offline application that watches your favorite stocks.
+> This web scraping cmd tool scrapes the queried data's reviews from IMDB and uses NLP to analyze the sentiment of the scraped reviews.
