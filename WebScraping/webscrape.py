@@ -48,12 +48,12 @@ class ScrapeReviews:
 	def __calculate_sentiment__(self, review):
 		reviews_sentiment = []
 		for sentence in review.split(". "):
-			if len(sentence.strip("\n ")) != 0:
-				txt= TextBlob(sentence.strip("\n "))
+			if len(sentence.strip("\t\n ")) != 0:
+				txt= TextBlob(sentence.strip("\t\n "))
 				a= txt.sentiment.polarity
 				b= txt.sentiment.subjectivity
 				if a != 0:
-					reviews_sentiment.append([sentence.strip("\n "),a,b])
+					reviews_sentiment.append([sentence.strip("\t\n "),a,b])
 		return reviews_sentiment
 
 	def num_of_reviews(self):
@@ -66,6 +66,13 @@ class ScrapeReviews:
 			raise Exception(f"The review number exceeds the total number of reviews which is {num_of_reviews}.")
 		review = self.reviews[review_number - 1]
 		return self.__calculate_sentiment__(review)
+
+	def get_review_text(self, review_number_str):
+		review_number = int(review_number_str)
+		num_of_reviews = self.num_of_reviews()
+		if review_number > num_of_reviews:
+			raise Exception(f"The review number exceeds the total number of reviews which is {num_of_reviews}.")
+		return self.reviews[review_number - 1]
 
 	def get_total_sentiment(self):
 		review = ". ".join(self.reviews)
