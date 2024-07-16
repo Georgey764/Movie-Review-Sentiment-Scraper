@@ -3,9 +3,15 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from textblob import TextBlob
+from selenium.webdriver.chrome.options import Options
 
 class ScrapeReviews:
-	driver = webdriver.Chrome()
+	options = Options()
+	options.add_argument('--headless')
+	options.add_argument('--no-sandbox')
+	options.add_argument('--disable-dev-shm-usage')
+	options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36")
+	driver = webdriver.Chrome(options=options)
 
 	def __init__(self, query):
 		self.query = query
@@ -14,7 +20,6 @@ class ScrapeReviews:
 	def __click_best_match__(self):
 		# Get search page
 		self.driver.get(f"https://www.imdb.com/find/?q={self.query}&ref_=nv_sr_sm")
-		self.driver.maximize_window()
 		try:
 			best_match = self.driver.find_element(By.CSS_SELECTOR, "a.ipc-metadata-list-summary-item__t")
 			best_match.click()
