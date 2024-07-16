@@ -53,15 +53,18 @@ class ScrapeReviews:
 			result.append(review.text)
 		return result
 
-	def __calculate_sentiment__(self, review):
+	def __calculate_sentiment__(self, reviews):
 		reviews_sentiment = []
-		for sentence in review.split(". "):
-			if len(sentence.strip("\t\n ")) != 0:
-				txt= TextBlob(sentence.strip("\t\n "))
-				a= txt.sentiment.polarity
-				b= txt.sentiment.subjectivity
-				if a != 0:
-					reviews_sentiment.append([sentence.strip("\t\n "),a,b])
+		for review in reviews:
+			review_list = []
+			for sentence in review.split(". "):
+				if len(sentence.strip("\t\n ")) != 0:
+					txt= TextBlob(sentence.strip("\t\n "))
+					a= txt.sentiment.polarity
+					b= txt.sentiment.subjectivity
+					if a != 0:
+						review_list.append([sentence.strip("\t\n "),a,b])
+			reviews_sentiment.append(review_list)
 		return reviews_sentiment
 
 	def num_of_reviews(self):
@@ -83,6 +86,5 @@ class ScrapeReviews:
 		return self.reviews[review_number - 1]
 
 	def get_total_sentiment(self):
-		review = ". ".join(self.reviews)
-		return self.__calculate_sentiment__(review)
+		return self.__calculate_sentiment__(self.reviews)
 
