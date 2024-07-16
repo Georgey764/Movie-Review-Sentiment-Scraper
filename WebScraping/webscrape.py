@@ -28,19 +28,22 @@ class ScrapeReviews:
 	
 	def __click_review_page__(self):
 		self.__click_best_match__()
-		try:
-			headings_links = self.driver.find_elements(By.CSS_SELECTOR, "a.ipc-title-link-wrapper")
-			for heading_link in headings_links:
-				try:
-					heading_title = heading_link.find_element(By.TAG_NAME, "h3")
-					# Dividing the first half and the second half of the heading text
-					if heading_title.text.lower().split("\n")[0] == "user reviews":
-						self.driver.execute_script("arguments[0].click();", heading_link)
-						break
-				except:
-					pass
-		except:
-			raise Exception(f"No 'User Reviews' section found for {self.query}.")
+		# try:
+		# 	headings_links = self.driver.find_elements(By.CSS_SELECTOR, "a.ipc-title-link-wrapper")
+		# 	for heading_link in headings_links:
+		# 		try:
+		# 			heading_title = heading_link.find_element(By.TAG_NAME, "h3")
+		# 			# Dividing the first half and the second half of the heading text
+		# 			if heading_title.text.lower().split("\n")[0] == "user reviews":
+		# 				self.driver.execute_script("arguments[0].click();", heading_link)
+		# 				break
+		# 		except:
+		# 			pass
+		# except:
+		# 	raise Exception(f"No 'User Reviews' section found for {self.query}.")
+		movie_url = self.driver.current_url
+		movie_id = movie_url.split("/")[4]
+		self.driver.get(f"https://www.imdb.com/title/{movie_id}/reviews?ref_=tt_urv")
 
 	def __get_reviews__(self):
 		self.__click_review_page__()
